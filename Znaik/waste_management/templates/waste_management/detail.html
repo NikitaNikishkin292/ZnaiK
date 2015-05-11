@@ -22,9 +22,11 @@
 	{% if error_message %}<p><strong>{{ error_message }}</strong>{% endif %}</p>
 	<form action = '{% url "waste_management:unload" bin.bin_id %}' method = 'post' >
 		{% csrf_token %}
-		<span> Увеличить текущий объём </span>
-		<input type='text' name = 'recycle_inside' id = 'recycle_inside'>
-		<input type="submit" value="Отправить"> 
+		<span> Добавить новый замер </span>
+		<input type='text' name = 'date_of_new_measurement' placeholder = 'Дата'>
+		<input type='text' name = 'volume_of_new_measurement' placeholder = 'Объём'>
+		<input type='text' name = 'mass_of_new_measurement' placeholder = 'Масса'>
+		<input type="submit" value="Добавить измерение"> 
 	</form>
 </body>
 </html>

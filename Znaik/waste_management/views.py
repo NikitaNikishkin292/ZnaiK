@@ -22,15 +22,15 @@ def waste_inside(request, bin_id):
 
 def unload (request, bin_id):
 	this_bin = get_object_or_404(Bin, pk = bin_id)
-	last_measurement = this_bin.measurement_set.get(pk = 1)
 	try:
-		delta = int(request.POST['recycle_inside'])
+		new_date = request.POST['date_of_new_measurement']
+		new_volume = int(request.POST['volume_of_new_measurement'])
+		new_mass = int(request.POST['mass_of_new_measurement'])
 	except (KeyError, Measurement.DoesNotExist):
 		return render(request, 'waste_management/detail.html', {'bin': this_bin} )
 	else:
-		last_measurement.voulume_of_recycle_inside += delta
-		last_measurement.save()
+		this_bin.measurement_set.create(measurement_date = new_date, voulume_of_recycle_inside = new_volume, mass_of_recycle_inside = new_mass)
 		#reverse создаёт нормальный url waste_management/this_bin.id/waste_inside
-		return HttpResponseRedirect(reverse('waste_management:waste_inside', args=(this_bin.id,)))
+		return render(request, 'waste_management/detail.html', {'bin' : this_bin})
 
 
