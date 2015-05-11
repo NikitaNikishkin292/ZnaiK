@@ -12,7 +12,7 @@
 	{% if first_five_bins %}
 	    <ul>
 	    {% for bin in first_five_bins %}
-	        <li><a href="/waste_management/{{ bin.bin_id }}/">{{ bin.bin_adress }}</a></li>
+	        <li><a href="{% url 'waste_management:detail' bin.bin_id %}">{{ bin.bin_adress }}</a></li>
 	    {% endfor %}
 	    </ul>
 	{% else %}
