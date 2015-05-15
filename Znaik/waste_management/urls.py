@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
 	#/waste_management
-	url(r'^$', views.index, name = 'index'),
+	url(r'^$', views.IndexView.as_view(), name = 'index'),
 	# /waste_management/54
 	url(r'^(?P<bin_id>[0-9]+)/$', views.detail, name = 'detail'),
 	# /waste_management/54/waste_inside

@@ -20,6 +20,7 @@ class BinAdmin(admin.ModelAdmin):
 	#отобразить доп поля
 	list_display = ('bin_id', 'bin_adress')
 	search_fields = ['bin_adress']
+	ordering = ('bin_id',)
 
 #Добавить в админку модель из БД
 admin.site.register(Bin, BinAdmin)

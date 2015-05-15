@@ -1,16 +1,24 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.shortcuts import render, get_object_or_404
+from django.core.urlresolvers import reverse
+from django.views import generic
 
 
 from .models import Bin, Measurement
 
-def index(request):
-	first_five_bins = Bin.objects.order_by('bin_id')[:5]
-	context = { 'first_five_bins' : first_five_bins }
-	#Передаём context по данному адресу, там ждут его содержимое
-	return render(request, 'waste_management/index.html', context)
+#def index(request):
+#	first_five_bins = Bin.objects.order_by('bin_id')[:5]
+#	context = { 'first_five_bins' : first_five_bins }
+#	#Передаём context по данному адресу, там ждут его содержимое
+#	return render(request, 'waste_management/index.html', context)
 
+class IndexView(generic.ListView):
+	template_name = 'waste_management/index.html'
+	context_object_name = 'first_five_bins'
+
+	def get_queryset(self):
+		return Bin.objects.order_by('bin_id')[:5]
 
 def detail(request, bin_id):
 	this_bin = get_object_or_404(Bin, pk = bin_id)
@@ -29,7 +37,7 @@ def unload (request, bin_id):
 	except (KeyError, Measurement.DoesNotExist):
 		return render(request, 'waste_management/detail.html', {'bin': this_bin} )
 	else:
-		this_bin.measurement_set.create(measurement_date = new_date, voulume_of_recycle_inside = new_volume, mass_of_recycle_inside = new_mass)
+		this_bin.measurement_set.create(measurement_date = new_date, volume_of_recycle_inside = new_volume, mass_of_recycle_inside = new_mass)
 		#reverse создаёт нормальный url waste_management/this_bin.id/waste_inside
 		return render(request, 'waste_management/detail.html', {'bin' : this_bin})
 

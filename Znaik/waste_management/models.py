@@ -11,14 +11,18 @@ class Bin(models.Model):
 	bin_adress = models.CharField(max_length = 200)
 	#Объём контейнера в литрах
 	bin_volume = models.IntegerField(default = 2000)
+	def __str__(self):
+		return str(self.bin_id)
 	
 
 class Measurement(models.Model):
 	its_bin = models.ForeignKey(Bin)
 	measurement_date = models.DateTimeField()
 	#Заполненность контейнера в л
-	voulume_of_recycle_inside = models.IntegerField(default = 0)
+	volume_of_recycle_inside = models.IntegerField(default = 0)
 	#True, если произведена выграузка, False, если сделан замер, но не произведена выгрузка
 	was_unloaded = models.BooleanField
 	#Масса содержимого контейнера. Заполняется только если производилась выгрузка
-	mass_of_recycle_inside = models.DecimalField(max_digits = 3, decimal_places = 1) 
+	mass_of_recycle_inside = models.DecimalField(max_digits = 3, decimal_places = 1)
+	def __str__(self):
+		return str(self.measurement_date)
